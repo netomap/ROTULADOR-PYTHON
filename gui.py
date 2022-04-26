@@ -78,6 +78,15 @@ class JANELA():
         self.tipo_anotacao = Radiobutton(self.win, text='X1Y1X2Y2', value='x1y1', variable=self.var_tipo_anotacao, command=self.selecionar_tipo)
         self.tipo_anotacao.pack()
         self.tipo_anotacao.place(x=600, y=240)
+
+        self.btt_deletar = Button(self.win, width=30, height=2, text='Deletar Última Anotação', command=self.deletar_ultima_anotacao)
+        self.btt_deletar.pack()
+        self.btt_deletar.place(x=600, y=300)
+    
+    def deletar_ultima_anotacao(self):
+        self.annotations = self.annotations[:-1]
+        self.annotations.to_csv(self.annotations_path, index=False)
+        self.atualizar_imagem()
     
     def selecionar_tipo(self):
         print (f'tipo marcacao: {self.var_tipo_anotacao.get()}')
@@ -113,26 +122,29 @@ class JANELA():
             self.xini, self.yini = e.x, e.y
 
     def salvar_anotacao(self):
-        if (self.var_tipo_anotacao.get() == 'xcyc'):
-            xc, yc = self.xini, self.yini
-            w, h = 2*(abs(self.xfim-self.xini)), 2*(abs(self.yfim-self.yini))
-        else:
-            x1, y1, x2, y2 = self.xini, self.yini, self.xfim, self.yfim
-            w, h = abs(x2-x1), abs(y2-y1)
-            xc, yc = min(x1, x2)+w/2, min(y1,y2) + h/2
-        
-        xc, yc, w, h = xc/self.imgw, yc/self.imgh, w/self.imgw, h/self.imgh
+        if (self.indice_classe != -1):
+            if (self.var_tipo_anotacao.get() == 'xcyc'):
+                xc, yc = self.xini, self.yini
+                w, h = 2*(abs(self.xfim-self.xini)), 2*(abs(self.yfim-self.yini))
+            else:
+                x1, y1, x2, y2 = self.xini, self.yini, self.xfim, self.yfim
+                w, h = abs(x2-x1), abs(y2-y1)
+                xc, yc = min(x1, x2)+w/2, min(y1,y2) + h/2
+            
+            xc, yc, w, h = xc/self.imgw, yc/self.imgh, w/self.imgw, h/self.imgh
 
-        elemento = {
-            'img_path': self.var_imagem_atual.get(),
-            'imgw': self.imgw, 'imgh': self.imgh,
-            'ind_classe': self.indice_classe,
-            'xc': xc, 'yc': yc,
-            'w': w, 'h': h
-        }
-        self.annotations = self.annotations.append(elemento, ignore_index=True)
-        self.annotations.to_csv(self.annotations_path, index=False)
-        self.atualizar_imagem()
+            elemento = {
+                'img_path': self.var_imagem_atual.get(),
+                'imgw': self.imgw, 'imgh': self.imgh,
+                'ind_classe': self.indice_classe,
+                'xc': xc, 'yc': yc,
+                'w': w, 'h': h
+            }
+            self.annotations = self.annotations.append(elemento, ignore_index=True)
+            self.annotations.to_csv(self.annotations_path, index=False)
+            self.atualizar_imagem()
+        else:
+            self.resetar_marcacao(0)
 
     def resetar_marcacao(self, e):
         self.ATUALMENTE_ANOTANDO = False
