@@ -25,7 +25,7 @@ class JANELA():
 
         self.win = Tk()
         self.win.resizable(False, False)
-        self.win.title('Anotador')
+        self.win.title('Rotulador')
         self.win.geometry('900x600+100+100')
 
         self.imgs_list = [str(l) for l in list(pathlib.Path(self.imgs_dir).glob('*.jpg'))]
