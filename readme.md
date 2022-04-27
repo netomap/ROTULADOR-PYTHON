@@ -1,3 +1,9 @@
+![data](https://img.shields.io/github/commit-activity/w/netomap/ROTULADOR-PYTHON)  
+![data](https://img.shields.io/github/last-commit/netomap/ROTULADOR-PYTHON)  
+![data](https://img.shields.io/github/repo-size/netomap/ROTULADOR-PYTHON)  
+![data](https://img.shields.io/github/languages/count/netomap/ROTULADOR-PYTHON)  
+![data](https://img.shields.io/github/downloads/netomap/ROTULADOR-PYTHON/total)
+
 # Rotulador-Python
 
 ## Objetivo
